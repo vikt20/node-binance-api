@@ -1581,6 +1581,11 @@ declare module "node-binance-api" {
 
         websockets: IWebsockets;
 
+        /**
+         * enables request keepAlive
+         */
+        foreverAgent(): undefined
+
     }
 
     export default Binance;

@@ -133,10 +133,11 @@ let api = function Binance( options = {} ) {
     }
 
 
-    /**
-     * When the 'foreverAgent' is set to true, we need to send a ping request every 30 seconds to keep the request pool alive.
-     */
-    if( Binance.options.foreverAgent ) setInterval( () => request( fapi + 'v1/ping' ), 30000 )
+
+    const enableForeverAgent = () => {
+        Binance.options.foreverAgent = true;
+        setInterval( () => request( { url: fapi + 'v1/ping', forever: true } ), 30000 )
+    }
     
     /**
      * Replaces socks connection uri hostname with IP address
@@ -2594,6 +2595,9 @@ let api = function Binance( options = {} ) {
         return new Set( array ).size === array.length;
     };
     return {
+        foreverAgent: function () {
+            enableForeverAgent()
+        },
         /**
         * Gets depth cache for given symbol
         * @param {symbol} symbol - get depch cache for this symbol
